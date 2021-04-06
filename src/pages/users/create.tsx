@@ -25,9 +25,11 @@ const createUserFormSchema = yup.object().shape({
 })
 
 export default function CreateUser() {
-  const { register, handleSubmit, formState, errors } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(createUserFormSchema)
   })
+
+  const { errors } = formState.errors;
 
   const handleCreateUser: SubmitHandler<CreateUserFormData> = async (values) => {
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -55,13 +57,36 @@ export default function CreateUser() {
 
           <VStack spacing="8">
             <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-              <Input name="name" label="Nome completo" ref={register} error={errors.name} />
-              <Input name="email" type="email" label="E-mail" ref={register} error={errors.email} />
+              <Input
+                name="name"
+                label="Nome completo"
+                {...register('name')}
+                error={errors.name}
+              />
+              <Input
+                name="email"
+                type="email"
+                label="E-mail"
+                {...register('email')}
+                error={errors.email}
+              />
             </SimpleGrid>
 
             <SimpleGrid minChildWidth="240px" spacing={["6", "8"]} w="100%">
-              <Input name="password" type="password" label="Senha" ref={register} error={errors.password} />
-              <Input name="password_confirmation" type="password" label="Confirmação da senha" ref={register} error={errors.password_confirmation} />
+              <Input
+                name="password"
+                type="password"
+                label="Senha"
+                {...register('password')}
+                error={errors.password}
+              />
+              <Input
+                name="password_confirmation"
+                type="password"
+                label="Confirmação da senha"
+                {...register('password_confirmation')}
+                error={errors.password_confirmation}
+              />
             </SimpleGrid>
           </VStack>
 
